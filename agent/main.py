@@ -23,7 +23,7 @@ import constants as c
 
 load_dotenv(override = False)
 
-os.makedirs("logs", exist_ok=True)
+
 info_logger,agent_logger = create_loggers("logs")
 
 loader = AgentConfigLoader("config.json")
@@ -322,8 +322,7 @@ def main():
 
     db_manager = AgentDataBaseManager("state/state.db","network.db")
 
-    os.makedirs("state", exist_ok=True)
-    os.makedirs("network",exist_ok = True)
+    
     db_manager.init_dbs()
    
     
