@@ -1,0 +1,79 @@
+services:
+  toxiproxy:
+    build: ./Proxyserver
+  search_tool:
+    build: ./flask_tools/serp
+    restart: always
+  weather_tool:
+    build: ./flask_tools/openweather
+    restart: always
+    
+  movie_tool:
+    build: ./flask_tools/tmdb
+    restart: always
+  
+  calendar_tool:
+    build: ./flask_tools/calendar
+    restart: always
+  
+  calculator_tool:
+    build: ./flask_tools/calculator
+    restart: always
+    
+  message_tool:
+    build: ./flask_tools/message
+    restart: always
+  
+  translator_tool:
+    build: ./flask_tools/translator
+    restart: always
+   
+  proxy_mgr:
+    build: ./Toxiproxy
+    volumes:
+      - ./state:/app/state 
+    restart: on-failure 
+    depends_on:
+      - toxiproxy
+
+  agent:
+    build: ./agent
+    restart: on-failure
+    depends_on:
+      toxiproxy: 
+        condition: service_started
+      search_tool: 
+        condition: service_healthy
+      weather_tool:
+        condition: service_healthy
+      movie_tool:
+        condition: service_healthy
+      calendar_tool:
+        condition: service_healthy
+      calculator_tool:
+        condition: service_healthy
+      message_tool:
+        condition: service_healthy
+      translator_tool:
+        condition: service_healthy  
+      proxy_mgr:
+        condition: service_healthy
+    volumes:
+        - ./state:/app/state
+        - ./logs:/app/logs
+    environment:
+      TOXIC_PROB: ${TOXIC_PROB}
+      ERROR_PROB: ${ERROR_PROB}
+      TOOL_LIMIT: ${TOOL_LIMIT}
+      PROMPT_LIMIT: ${PROMPT_LIMIT}
+    env_file:
+      - .env
+    
+
+  
+
+  
+    
+
+
+  
