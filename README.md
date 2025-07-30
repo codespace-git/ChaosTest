@@ -37,7 +37,7 @@ The system consists of four main components:
   - Calendar (Event management)
   - Calculator (Mathematical operations)
   - Messaging (Send/receive messages)
-  - Translator (Multi-language translation)
+  - Translator (Multi-language translation using [deep-translator](https://pypi.org/project/deep-translator/))
 - **Request deduplication** and health checks
 - **Realistic API responses** for testing
 
@@ -53,7 +53,9 @@ The system consists of four main components:
   - On Linux: Native Docker installation
   - On Windows/Mac: Docker Desktop or WSL2 with Docker
 - **Groq API Key**: Sign up at [Groq Console](https://console.groq.com/) for free API access
-
+- **A movies.json**:a json array at (`flask_tools/tmdb/`) containing random movie information with atleast two fields,"name" and "original_name" for accurate api simulation,
+                    handles errors in its absense
+  
 ## 🚀 Quick Start
 
 ### 1. Clone and Setup
@@ -67,7 +69,7 @@ cd chaos-engineering-ai-agents
 
 ```bash
 # Create required directories
-mkdir -p agent state logs
+mkdir -p state logs
 
 # Create empty database files
 touch agent/network.db
@@ -89,6 +91,7 @@ ERROR_PROB=0.1
 TOOL_LIMIT=1
 PROMPT_LIMIT=1
 ```
+**Note**:If the env vars arent passed explicitly and/or undefined in the .env aswell,hardcoded values given above are then used
 
 **Configuration Variables:**
 - `GROQ_API_KEY`: Your Groq API key (required)
@@ -238,7 +241,7 @@ Configure fallback values in case `config.json` is missing or incomplete. **Ensu
 
 1. **Create a new Flask service** in `flask_tools/your_tool/`
 2. **Add service to `docker-compose.yaml`** with health checks
-3. **Update `agent/config.json`** with new proxy and service entries
+3. **Update `agent/config.json` and `agent/defaults.py`** with new proxy and service entries
 4. **Update `Toxiproxy/constants/constant.go`** with new proxy configuration
 5. **Add tool implementation** in `agent/toolbuilder.py`
 6. **Update the items list** in `agent/main.py` if needed
@@ -263,9 +266,9 @@ The framework logs extensive metrics. You can:
 
 ### Common Issues
 
-1. **Agent exits immediately**
+1. **info.log says no api key was set or shows issue with prompts.json**
    - Check if `GROQ_API_KEY` is set correctly
-   - Verify `prompts.json` exists and is valid JSON
+   - Verify `prompts.json` exists and is valid JSON array
 
 2. **Services won't start**
    - Ensure Docker daemon is running
@@ -332,7 +335,27 @@ This is an educational project! Feel free to:
 
 ## 📄 License
 
-[Add your license information here]
+MIT License
+
+Copyright (c) 2025 Bhargav
+
+Permission is hereby granted, free of charge, to any person obtaining a copy  
+of this software and associated documentation files (the "Software"), to deal  
+in the Software without restriction, including without limitation the rights  
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell  
+copies of the Software, and to permit persons to whom the Software is  
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in  
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR  
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,  
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE  
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER  
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,  
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE  
+SOFTWARE.
 
 ## 🙏 Acknowledgments
 
