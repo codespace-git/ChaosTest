@@ -65,13 +65,12 @@ git clone <repository-url>
 cd chaos-engineering-ai-agents
 ```
 
-### 2. Create Required Directories and Files
+### 2. Create Required Directories (if not exists)
 
 ```bash
-# Create required directories
-mkdir -p state logs
+mkdir -p logs state
 
-# Create empty database files
+# Create empty database files (optional - will be created automatically)
 touch agent/network.db
 touch state/state.db
 
