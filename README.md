@@ -65,9 +65,10 @@ git clone <repository-url>
 cd chaos-engineering-ai-agents
 ```
 
-### 2. Create Required Directories (if not exists)
+### 2. Create Required Directories and files(if not exists)
 
 ```bash
+# Create directories (not required if the codebase is cloned)
 mkdir -p logs state
 
 # Create empty database files (optional - will be created automatically)
